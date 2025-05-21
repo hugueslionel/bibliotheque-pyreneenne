@@ -2,6 +2,21 @@ const { app, BrowserWindow, ipcMain, dialog } = require('electron');
 const fs = require('fs');
 const path = require('path');
 
+ipcMain.handle('export-data', async (_, data) => {
+    const { filePath } = await dialog.showSaveDialog({
+        title: 'Exporter les données',
+        defaultPath: path.join(app.getPath('documents'), 'bibliotheque_pyreneenne.json'),
+        filters: [{ name: 'JSON', extensions: ['json'] }]
+    });
+
+    if (filePath) {
+        await fs.promises.writeFile(filePath, data);
+        return { success: true, filePath };
+    }
+    return { success: false };
+});
+
+
 let mainWindow;
 
 ipcMain.handle('export-data', async (event, data) => {
