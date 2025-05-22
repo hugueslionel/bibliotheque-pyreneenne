@@ -207,7 +207,6 @@ ipcMain.handle('github-check-token', async () => {
     // Sur macOS, il est commun de re-créer une fenêtre dans l'application
     if (mainWindow === null) createWindow();
   });
-});
 
 // Quitter quand toutes les fenêtres sont fermées, sauf sur macOS
 app.on('window-all-closed', function () {
