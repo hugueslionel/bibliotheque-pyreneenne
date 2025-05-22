@@ -1,54 +1,55 @@
 const { app, BrowserWindow, ipcMain, dialog } = require('electron');
-const fs = require('fs');
 const path = require('path');
+const fs = require('fs');
+const Store = require('electron-store');
 
-ipcMain.handle('export-data', async (_, data) => {
-    const { filePath } = await dialog.showSaveDialog({
-        title: 'Exporter les données',
-        defaultPath: path.join(app.getPath('documents'), 'bibliotheque_pyreneenne.json'),
-        filters: [{ name: 'JSON', extensions: ['json'] }]
-    });
-
-    if (filePath) {
-        await fs.promises.writeFile(filePath, data);
-        return { success: true, filePath };
-    }
-    return { success: false };
+// Configuration du stockage persistant
+const store = new Store({
+  name: 'bibliotheque-pyreneenne-data'
 });
 
-
+// Gardez une référence globale de l'objet window
 let mainWindow;
 
-ipcMain.handle('export-data', async (event, data) => {
-    const { filePath } = await dialog.showSaveDialog({
-        title: 'Exporter les données',
-        defaultPath: path.join(app.getPath('documents'), 'bibliotheque_pyreneenne.json'),
-        filters: [{ name: 'JSON Files', extensions: ['json'] }]
-    });
-
-    if (filePath) {
-        await fs.promises.writeFile(filePath, data);
-        return { filePath };
-    }
-    return {};
-});
-
 function createWindow() {
-    mainWindow = new BrowserWindow({
-        width: 1200,
-        height: 800,
-        webPreferences: {
-            nodeIntegration: false,
-            contextIsolation: true,
-            preload: path.join(__dirname, 'preload.js')
-        }
-    });
+  // Créer la fenêtre du navigateur
+  mainWindow = new BrowserWindow({
+    width: 1400,
+    height: 900,
+    webPreferences: {
+      preload: path.join(__dirname, 'preload.js'),
+      contextIsolation: true,
+      nodeIntegration: false
+    },
+    icon: path.join(__dirname, 'assets', 'icon.png'), // Optionnel
+    title: 'Bibliothèque Pyrénéenne'
+  });
 
-    mainWindow.loadFile('index.html');
+  // Charger l'index.html de l'application
+  mainWindow.loadFile(path.join(__dirname, 'renderer', 'index.html'));
+
+  // Ouvrir les DevTools en mode développement
+  if (process.env.NODE_ENV === 'development') {
+    mainWindow.webContents.openDevTools();
+  }
+
+  // Émis lorsque la fenêtre est fermée
+  mainWindow.on('closed', function () {
+    mainWindow = null;
+  });
 }
 
-app.whenReady().then(createWindow);
+// Cette méthode sera appelée quand Electron a fini de s'initialiser
+app.whenReady().then(() => {
+  createWindow();
 
-app.on('window-all-closed', () => {
-    if (process.platform !== 'darwin') app.quit();
+  app.on('activate', function () {
+    // Sur macOS, il est commun de re-créer une fenêtre dans l'application
+    if (mainWindow === null) createWindow();
+  });
+});
+
+// Quitter quand toutes les fenêtres sont fermées, sauf sur macOS
+app.on('window-all-closed', function () {
+  if (process.platform !== 'darwin') app.quit();
 });
