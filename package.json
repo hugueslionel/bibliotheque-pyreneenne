@@ -1,11 +1,37 @@
 {
   "name": "bibliotheque-pyreneenne",
   "version": "1.0.0",
+  "description": "Application de gestion d'une bibliothèque Pyrénéenne",
   "main": "main.js",
   "scripts": {
-    "start": "electron ."
+    "start": "electron .",
+    "dev": "NODE_ENV=development electron .",
+    "build": "electron-builder"
+  },
+  "author": "Votre Nom",
+  "license": "MIT",
+  "devDependencies": {
+    "electron": "^28.0.0",
+    "electron-builder": "^24.6.4"
   },
   "dependencies": {
-    "electron": "^latest"
+    "electron-store": "^8.1.0",
+    "octokit": "^3.1.1"
+  },
+  "build": {
+    "appId": "com.bibliotheque.pyreneenne",
+    "productName": "Bibliothèque Pyrénéenne",
+    "directories": {
+      "output": "dist"
+    },
+    "win": {
+      "target": "nsis"
+    },
+    "mac": {
+      "target": "dmg"
+    },
+    "linux": {
+      "target": "AppImage"
+    }
   }
 }
