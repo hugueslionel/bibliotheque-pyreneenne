@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bibliothèque Pyrénéenne</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>Bibliothèque Pyrénéenne</h1>
+    
+    <div class="search-container">
+        <input type="text" id="searchInput" placeholder="Rechercher un livre...">
+    </div>
+    
+    <div class="controls">
+        <button id="addEntryBtn">Nouvelle entrée</button>
+        <button id="exportBtn">Exporter les données</button>
+        <button id="importBtn">Importer les données</button>
+        <button id="saveToFileBtn">Sauvegarder fichier</button>
+        <button id="loadFromFileBtn">Charger fichier</button>
+        <button id="syncGitHubBtn">Synchroniser GitHub</button>
+        <input type="file" id="importFile" accept=".json" class="file-input">
+    </div>
+    
+    <div class="status-message" id="statusMessage"></div>
+    
+    <table id="bookTable">
+        <thead>
+            <tr>
+                <th>N°</th>
+                <th>Auteur</th>
+                <th>Titre</th>
+                <th>Description</th>
+                <th>Commentaires</th>
+                <th>Photo</th>
+                <th class="supprimer-column">Supprimer</th>
+            </tr>
+        </thead>
+        <tbody id="bookTableBody">
+            <!-- Les entrées de la bibliothèque seront ajoutées ici dynamiquement -->
+        </tbody>
+    </table>
+
+    <!-- Modal pour afficher les images en grand -->
+    <div id="imageModal" class="modal">
+        <span class="close">&times;</span>
+        <img class="modal-content" id="expandedImg">
+    </div>
+
+    <script src="renderer.js"></script>
+</body>
+</html>
