@@ -17,10 +17,14 @@
         <button id="addEntryBtn">Nouvelle entrée</button>
         <button id="exportBtn">Exporter les données</button>
         <button id="importBtn">Importer les données</button>
-        <button id="saveToFileBtn">Sauvegarder fichier</button>
-        <button id="loadFromFileBtn">Charger fichier</button>
-        <button id="syncGitHubBtn">Synchroniser GitHub</button>
-        <input type="file" id="importFile" accept=".json" class="file-input">
+    </div>
+    
+    <!-- Nouveaux contrôles GitHub -->
+    <div class="github-controls">
+        <button id="githubConfigBtn">Configuration GitHub</button>
+        <button id="githubSaveBtn">Sauvegarder sur GitHub</button>
+        <button id="githubLoadBtn">Charger depuis GitHub</button>
+        <span id="githubStatus" class="github-status"></span>
     </div>
     
     <div class="status-message" id="statusMessage"></div>
@@ -46,6 +50,24 @@
     <div id="imageModal" class="modal">
         <span class="close">&times;</span>
         <img class="modal-content" id="expandedImg">
+    </div>
+    
+    <!-- Modal pour la configuration GitHub -->
+    <div id="githubConfigModal" class="modal">
+        <div class="modal-dialog">
+            <h2>Configuration GitHub</h2>
+            <p>Pour utiliser la synchronisation GitHub, vous devez créer un token d'accès personnel :</p>
+            <ol>
+                <li>Allez sur GitHub.com → Settings → Developer settings → Personal access tokens</li>
+                <li>Créez un nouveau token avec les permissions "repo"</li>
+                <li>Copiez le token et collez-le ci-dessous :</li>
+            </ol>
+            <input type="password" id="githubTokenInput" placeholder="Votre token GitHub">
+            <div class="modal-actions">
+                <button id="saveTokenBtn">Sauvegarder</button>
+                <button id="cancelTokenBtn">Annuler</button>
+            </div>
+        </div>
     </div>
 
     <script src="renderer.js"></script>
